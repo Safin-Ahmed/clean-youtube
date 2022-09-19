@@ -24,11 +24,11 @@ const router = createBrowserRouter([
         path: "/favorites",
         element: <Favorites />,
       },
-      {
-        path: "/playlist/:playlistId",
-        element: <Playlist />,
-      },
     ],
+  },
+  {
+    path: "/playlist/:playlistId",
+    element: <Playlist />,
   },
 ]);
 

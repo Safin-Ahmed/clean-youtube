@@ -2,6 +2,7 @@ import { Container, Typography } from "@mui/material";
 import { useStoreActions } from "easy-peasy";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import PersistentDrawerRight from "../Layout/Drawer";
 
 const Playlist = () => {
   const { playlistId } = useParams();
@@ -9,13 +10,7 @@ const Playlist = () => {
   useEffect(() => {
     recentActions.addToRecent(playlistId);
   }, []);
-  return (
-    <Container>
-      <Typography variant="h6">
-        Dynamic Page for Playlist #{playlistId}
-      </Typography>
-    </Container>
-  );
+  return <PersistentDrawerRight />;
 };
 
 export default Playlist;
