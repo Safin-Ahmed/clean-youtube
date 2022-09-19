@@ -1,0 +1,6 @@
+.cardWrapper {
+  border-radius: 15px;
+  background: linear-gradient(145deg, #0e0e0e, #0c0c0c) !important;
+  box-shadow: 17px 17px 19px #0b0b0b, -17px -17px 19px #0f0f0f;
+  height: 100%;
+}

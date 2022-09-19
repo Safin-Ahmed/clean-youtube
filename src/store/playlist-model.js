@@ -19,6 +19,7 @@ const playlistModel = persist({
       console.log("API Call Cancelled");
       return;
     }
+
     action.setLoading(true);
     try {
       const playlist = await getPlaylist(payload);
