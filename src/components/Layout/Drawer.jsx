@@ -72,6 +72,13 @@ export default function PlaylistContentDrawer({ playlist }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const videoId = searchParams.get("video");
   const [selectedVideo, setSelectedVideo] = React.useState("");
+
+  React.useEffect(() => {
+    setSearchParams({
+      video: playlist.playlistItems[0].contentDetails.videoId,
+    });
+  }, []);
+
   React.useEffect(() => {
     setSelectedVideo(videoId);
   }, [videoId]);
@@ -80,7 +87,7 @@ export default function PlaylistContentDrawer({ playlist }) {
   );
 
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -97,7 +104,7 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const opts = {
-    height: "390",
+    height: "590",
     width: "100%",
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
@@ -174,10 +181,10 @@ export default function PlaylistContentDrawer({ playlist }) {
         <div className={styles.playerWrapper}>
           <YouTube videoId={selectedVideo} opts={opts} onReady={onReady} />
           <div className={styles.title}>
-            <Typography variant="h6">{videoInfo.title}</Typography>
+            <Typography variant="h6">{videoInfo?.title}</Typography>
           </div>
           <div className={styles.description}>
-            <Typography variant="body2">{videoInfo.description}</Typography>
+            <Typography variant="body2">{videoInfo?.description}</Typography>
           </div>
         </div>
       </Main>
@@ -225,11 +232,11 @@ export default function PlaylistContentDrawer({ playlist }) {
                       objectFit: "cover",
                     }}
                     src={item.thumbnail.url}
-                    alt={item.title}
+                    alt={item.title ? item.title : "Video"}
                   />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.title}
+                  primary={item.title ? item.title : "Title"}
                   secondary={
                     <React.Fragment>
                       <Typography
