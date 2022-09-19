@@ -12,13 +12,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
+
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { ListItemAvatar } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+import YouTube from "react-youtube";
+import styles from "./Drawer.module.css";
+import { CleaningServicesOutlined } from "@mui/icons-material";
 
 const drawerWidth = 500;
 
@@ -68,6 +69,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function PlaylistContentDrawer({ playlist }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const videoId = searchParams.get("video");
+  const [selectedVideo, setSelectedVideo] = React.useState("");
+  React.useEffect(() => {
+    setSelectedVideo(videoId);
+  }, [videoId]);
+  const videoInfo = playlist.playlistItems.find(
+    (item) => item.contentDetails.videoId === videoId
+  );
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -79,14 +90,74 @@ export default function PlaylistContentDrawer({ playlist }) {
     setOpen(false);
   };
 
+  const handleOnVideoClick = (videoId) => {
+    setSearchParams({
+      video: videoId,
+    });
+  };
+
+  const opts = {
+    height: "390",
+    width: "100%",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+      rel: 0,
+    },
+  };
+
+  const onReady = (e) => {};
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar sx={{ background: "#FF0000" }} position="fixed" open={open}>
-        <Toolbar>
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-            Playlist Contents
-          </Typography>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <div style={{ display: "flex" }}>
+            <CleaningServicesOutlined
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                ml: 1,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              CLEAN YOUTUBE
+            </Typography>
+
+            <CleaningServicesOutlined
+              sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+            />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              CLEAN YOUTUBE
+            </Typography>
+          </div>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -100,35 +171,15 @@ export default function PlaylistContentDrawer({ playlist }) {
       </AppBar>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <div className={styles.playerWrapper}>
+          <YouTube videoId={selectedVideo} opts={opts} onReady={onReady} />
+          <div className={styles.title}>
+            <Typography variant="h6">{videoInfo.title}</Typography>
+          </div>
+          <div className={styles.description}>
+            <Typography variant="body2">{videoInfo.description}</Typography>
+          </div>
+        </div>
       </Main>
       <Drawer
         sx={{
@@ -137,6 +188,7 @@ export default function PlaylistContentDrawer({ playlist }) {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
           },
+          zIndex: open ? "111" : "-1",
         }}
         variant="persistent"
         anchor="right"
@@ -160,8 +212,10 @@ export default function PlaylistContentDrawer({ playlist }) {
             <>
               <ListItemButton
                 key={item.contentDetails.videoId}
-                alignItems="flex-start"
+                selected={item.contentDetails.videoId === selectedVideo}
+                alignItems="center"
                 sx={{ gap: 2 }}
+                onClick={() => handleOnVideoClick(item.contentDetails.videoId)}
               >
                 <ListItemAvatar>
                   <img
