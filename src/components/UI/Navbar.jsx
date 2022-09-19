@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { CleaningServicesOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const pages = ["recents", "favorites"];
 
@@ -115,14 +115,11 @@ const Navbar = () => {
             }}
           >
             {pages.map((page) => (
-              <Link
-                key={page}
-                to={`/${page}`}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Button>{page}</Button>
-              </Link>
+              <NavLink key={page} to={`/${page}`} onClick={handleCloseNavMenu}>
+                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                  {page}
+                </Button>
+              </NavLink>
             ))}
           </Box>
         </Toolbar>
