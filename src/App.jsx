@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
-import "./App.css";
 import usePlaylists from "./hooks/usePlaylists";
 import { useStoreActions } from "easy-peasy";
+import Navbar from "./components/UI/Navbar";
 
 const playlistId = "PL_XxuZqN0xVAu_dWUVFbscqZdTzE8t6Z1";
 
