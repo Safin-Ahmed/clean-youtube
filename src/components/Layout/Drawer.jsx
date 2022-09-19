@@ -18,8 +18,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { ListItemAvatar } from "@mui/material";
 
-const drawerWidth = 240;
+const drawerWidth = 500;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -66,7 +67,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-export default function PersistentDrawerRight() {
+export default function PlaylistContentDrawer({ playlist }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -81,10 +82,10 @@ export default function PersistentDrawerRight() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar sx={{ background: "#FF0000" }} position="fixed" open={open}>
         <Toolbar>
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-            Persistent drawer
+            Playlist Contents
           </Typography>
           <IconButton
             color="inherit"
@@ -149,31 +150,48 @@ export default function PersistentDrawerRight() {
               <ChevronRightIcon />
             )}
           </IconButton>
+          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+            Playlist Contents
+          </Typography>
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          {playlist.playlistItems.map((item, index) => (
+            <>
+              <ListItemButton
+                key={item.contentDetails.videoId}
+                alignItems="flex-start"
+                sx={{ gap: 2 }}
+              >
+                <ListItemAvatar>
+                  <img
+                    style={{
+                      width: "150px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                    src={item.thumbnail.url}
+                    alt={item.title}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.title}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {playlist.channelTitle}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
               </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
+              <Divider />
+            </>
           ))}
         </List>
       </Drawer>

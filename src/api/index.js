@@ -41,7 +41,7 @@ const getPlaylist = async (playlistId) => {
     return {
       title,
       description,
-      thumbnails,
+      thumbnail: standard,
       contentDetails: item.contentDetails,
     };
   });
