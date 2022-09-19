@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Favorites from "./components/Favorites/Favorites";
+import Playlist from "./components/Playlist/Playlist";
+import Recents from "./components/Recents/Recents";
 import Layout from "./components/UI/Layout";
 import "./index.css";
 import store from "./store";
@@ -16,11 +18,15 @@ const router = createBrowserRouter([
       { index: true, element: <App /> },
       {
         path: "/recents",
-        element: <h1>Recent Playlists</h1>,
+        element: <Recents />,
       },
       {
         path: "/favorites",
         element: <Favorites />,
+      },
+      {
+        path: "/playlist/:playlistId",
+        element: <Playlist />,
       },
     ],
   },
