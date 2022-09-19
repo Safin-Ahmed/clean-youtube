@@ -10,7 +10,7 @@ const PlayListCardList = ({ title, items }) => {
       <Typography variant="h5" sx={{ color: "#fff" }}>
         {title}
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         {items.map((item) => {
           const playlist = playlistState.data[item];
           return (

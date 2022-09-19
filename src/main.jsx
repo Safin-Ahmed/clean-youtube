@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
+import Favorites from "./components/Favorites/Favorites";
 import Layout from "./components/UI/Layout";
 import "./index.css";
 import store from "./store";
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/favorites",
-        element: <h1>Favorite Videos</h1>,
+        element: <Favorites />,
       },
     ],
   },

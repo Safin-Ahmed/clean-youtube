@@ -25,7 +25,9 @@ const Home = () => {
         Paste your desired playlist id and hit add button.
       </Typography>
       <InputField getPlaylist={playlist.getPlaylist} />
-      <PlayListCardList title="All Playlists" items={allPlaylists} />;
+      {allPlaylists.length > 0 && (
+        <PlayListCardList title="All Playlists" items={allPlaylists} />
+      )}
     </Container>
   );
 };
