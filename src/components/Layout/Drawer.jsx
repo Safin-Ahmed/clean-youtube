@@ -113,7 +113,9 @@ export default function PlaylistContentDrawer({ playlist }) {
     },
   };
 
-  const onReady = (e) => {};
+  const onReady = (e) => {
+    console.log(YouTube.PlayerState);
+  };
   //
   return (
     <Box sx={{ display: "flex" }}>
@@ -194,7 +196,15 @@ export default function PlaylistContentDrawer({ playlist }) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Main open={open}>
+      <Main
+        sx={{
+          marginRight: {
+            xs: open ? 0 : "-100%",
+            md: open ? 0 : `${-drawerWidth}px`,
+          },
+        }}
+        open={open}
+      >
         <DrawerHeader />
         <div className={styles.playerWrapper}>
           <YouTube

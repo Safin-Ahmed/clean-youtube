@@ -10,7 +10,6 @@
 .description {
   color: #fff;
   margin-top: 1rem;
-  max-width: 80%;
 }
 
 .paper {
@@ -24,6 +23,6 @@
 
   .player iframe {
     width: 100%;
-    height: 400px;
+    height: 300px;
   }
 }
