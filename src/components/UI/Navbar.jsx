@@ -35,8 +35,8 @@ const Navbar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            to="/"
+            component={Link}
             sx={{
               mr: 2,
               ml: 1,

@@ -5,3 +5,10 @@
   height: 100%;
   cursor: pointer;
 }
+.rfActions {
+  display: flex;
+  gap: 1rem;
+}
+.rfActions button {
+  min-width: auto;
+}

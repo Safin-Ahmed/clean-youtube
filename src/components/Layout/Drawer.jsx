@@ -16,12 +16,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemAvatar } from "@mui/material";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import styles from "./Drawer.module.css";
 import { CleaningServicesOutlined } from "@mui/icons-material";
 
-const drawerWidth = 500;
+const drawerWidth = 650;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -114,11 +114,18 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const onReady = (e) => {};
-
+  //
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar sx={{ background: "#FF0000" }} position="fixed" open={open}>
+      <AppBar
+        sx={{
+          background: "#FF0000",
+          display: { xs: open ? "none" : "block", md: "block" },
+        }}
+        position="fixed"
+        open={open}
+      >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
             <CleaningServicesOutlined
@@ -127,8 +134,8 @@ export default function PlaylistContentDrawer({ playlist }) {
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/"
+              component={Link}
+              to="/"
               sx={{
                 mr: 2,
                 ml: 1,
@@ -138,6 +145,8 @@ export default function PlaylistContentDrawer({ playlist }) {
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
+                borderRight: "1px solid #fff",
+                pr: 2,
               }}
             >
               CLEAN YOUTUBE
@@ -164,7 +173,16 @@ export default function PlaylistContentDrawer({ playlist }) {
             >
               CLEAN YOUTUBE
             </Typography>
+            <div>
+              <Typography
+                sx={{ display: { xs: "none", md: "block" } }}
+                variant="h6"
+              >
+                {playlist.playlistTitle}
+              </Typography>
+            </div>
           </div>
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -179,7 +197,12 @@ export default function PlaylistContentDrawer({ playlist }) {
       <Main open={open}>
         <DrawerHeader />
         <div className={styles.playerWrapper}>
-          <YouTube videoId={selectedVideo} opts={opts} onReady={onReady} />
+          <YouTube
+            className={styles.player}
+            videoId={selectedVideo}
+            opts={opts}
+            onReady={onReady}
+          />
           <div className={styles.title}>
             <Typography variant="h6">{videoInfo?.title}</Typography>
           </div>
@@ -190,10 +213,13 @@ export default function PlaylistContentDrawer({ playlist }) {
       </Main>
       <Drawer
         sx={{
-          width: drawerWidth,
+          width: { xs: "100%", md: drawerWidth },
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
+            width: { xs: "100%", md: drawerWidth },
+            background: "#000",
+            color: "#fff",
+            zIndex: { xs: "99", md: "0" },
           },
           zIndex: open ? "111" : "-1",
         }}
@@ -204,13 +230,18 @@ export default function PlaylistContentDrawer({ playlist }) {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
-              <ChevronLeftIcon />
+              <ChevronLeftIcon sx={{ color: "#fff" }} />
             ) : (
-              <ChevronRightIcon />
+              <ChevronRightIcon sx={{ color: "#fff" }} />
             )}
           </IconButton>
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-            Playlist Contents
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{ flexGrow: 1, color: "#fff" }}
+            component="div"
+          >
+            {playlist.playlistTitle}
           </Typography>
         </DrawerHeader>
         <Divider />
@@ -240,7 +271,7 @@ export default function PlaylistContentDrawer({ playlist }) {
                   secondary={
                     <React.Fragment>
                       <Typography
-                        sx={{ display: "inline" }}
+                        sx={{ display: "inline", color: "#fff" }}
                         component="span"
                         variant="body2"
                         color="text.primary"
@@ -251,7 +282,7 @@ export default function PlaylistContentDrawer({ playlist }) {
                   }
                 />
               </ListItemButton>
-              <Divider />
+              <Divider sx={{ borderColor: "rgb(205 205 205 / 21%)" }} />
             </>
           ))}
         </List>

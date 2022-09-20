@@ -129,3 +129,12 @@ a {
 body {
   background-color: #181818 !important;
 }
+.Mui-selected {
+  background-color: rgb(246 241 241 / 16%) !important;
+}
+.Mui-selected:hover {
+  background-color: rgb(246 241 241 / 30%) !important;
+}
+.MuiListItemButton-root:hover {
+  background-color: rgb(246 241 241 / 30%) !important;
+}

@@ -4,7 +4,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActions, Chip } from "@mui/material";
-import { FavoriteBorderOutlined, PlayCircleOutline } from "@mui/icons-material";
+import {
+  FavoriteBorderOutlined,
+  PlayCircleOutline,
+  PlaylistRemoveOutlined,
+} from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styles from "./PlayListCard.module.css";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -25,6 +29,8 @@ export default function PlayListCard({ playlist }) {
       actions.removeFromFavorite(playlist.playlistId);
     }
   };
+
+  const handleRemove = () => {};
 
   return (
     <div
@@ -78,10 +84,16 @@ export default function PlayListCard({ playlist }) {
               Start Course
             </Button>
           </Link>
-          <Button onClick={handleFavorite}>
-            {isFavorite && <FavoriteIcon sx={{ color: "red" }} />}
-            {!isFavorite && <FavoriteBorderOutlined sx={{ color: "red" }} />}
-          </Button>
+          <div className={styles.rfActions}>
+            <Button onClick={handleFavorite}>
+              {isFavorite && <FavoriteIcon sx={{ color: "red" }} />}
+              {!isFavorite && <FavoriteBorderOutlined sx={{ color: "red" }} />}
+            </Button>
+
+            <Button onClick={handleRemove}>
+              <PlaylistRemoveOutlined sx={{ color: "red" }} />
+            </Button>
+          </div>
         </CardActions>
       </Card>
     </div>

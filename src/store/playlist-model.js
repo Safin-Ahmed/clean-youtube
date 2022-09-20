@@ -16,7 +16,6 @@ const playlistModel = persist({
   }),
   getPlaylist: thunk(async (action, payload, { getState }) => {
     if (getState().data[payload]) {
-      console.log("API Call Cancelled");
       return;
     }
 
@@ -31,8 +30,6 @@ const playlistModel = persist({
     } finally {
       action.setLoading(false);
     }
-
-    console.log("API CALLED");
   }),
 });
 

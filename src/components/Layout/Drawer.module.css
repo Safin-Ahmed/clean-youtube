@@ -11,3 +11,18 @@
   color: #fff;
   margin-top: 1rem;
 }
+
+.paper {
+  background-color: #000;
+}
+
+@media (max-width: 575px) {
+  .playerWrapper {
+    max-width: 90%;
+  }
+
+  .player iframe {
+    width: 100%;
+    height: 400px;
+  }
+}
