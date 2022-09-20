@@ -16,7 +16,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function PlayListCard({ playlist }) {
   const navigate = useNavigate();
-  const actions = useStoreActions((action) => action.favorites);
+  const favoriteActions = useStoreActions((action) => action.favorites);
+  const recentActions = useStoreActions((action) => action.recents);
+  const playlistActions = useStoreActions((action) => action.playlist);
   const favoriteState = useStoreState((state) => state.favorites);
   const isFavorite = favoriteState.items.find(
     (item) => item === playlist.playlistId
@@ -24,13 +26,18 @@ export default function PlayListCard({ playlist }) {
   const handleFavorite = (e) => {
     e.stopPropagation();
     if (!isFavorite) {
-      actions.addToFavorite(playlist.playlistId);
+      favoriteActions.addToFavorite(playlist.playlistId);
     } else {
-      actions.removeFromFavorite(playlist.playlistId);
+      favoriteActions.removeFromFavorite(playlist.playlistId);
     }
   };
 
-  const handleRemove = () => {};
+  const handleRemove = (e) => {
+    e.stopPropagation();
+    playlistActions.removePlaylist(playlist.playlistId);
+    favoriteActions.removeFromFavorite(playlist.playlistId);
+    recentActions.removeFromRecent(playlist.playlistId);
+  };
 
   return (
     <div

@@ -8,7 +8,7 @@ const PlayListCardList = ({ title, items }) => {
   return (
     <Container className={styles.wrapper}>
       <Typography variant="h5" sx={{ color: "#fff" }}>
-        {title}
+        {title} {`(${items.length})`}
       </Typography>
       <Grid container spacing={4}>
         {items.map((item) => {
@@ -18,7 +18,8 @@ const PlayListCardList = ({ title, items }) => {
               className={styles.cardsWrapper}
               key={playlist.playlistId}
               item
-              xs={4}
+              xs={12}
+              md={4}
             >
               <PlayListCard playlist={playlist} />
             </Grid>

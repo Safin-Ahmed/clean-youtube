@@ -158,8 +158,8 @@ export default function PlaylistContentDrawer({ playlist }) {
             <Typography
               variant="h5"
               noWrap
-              component="a"
-              href=""
+              component={Link}
+              to="/"
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -262,7 +262,7 @@ export default function PlaylistContentDrawer({ playlist }) {
                       height: "100px",
                       objectFit: "cover",
                     }}
-                    src={item.thumbnail.url}
+                    src={item.thumbnail?.url}
                     alt={item.title ? item.title : "Video"}
                   />
                 </ListItemAvatar>

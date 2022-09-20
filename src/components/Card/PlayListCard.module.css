@@ -4,11 +4,17 @@
   box-shadow: 17px 17px 19px #0b0b0b, -17px -17px 19px #0f0f0f;
   height: 100%;
   cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 999;
+}
+.cardWrapper:hover {
+  transform: scale(1.1);
 }
 .rfActions {
   display: flex;
   gap: 1rem;
 }
 .rfActions button {
-  min-width: auto;
+  min-width: auto !important;
+  padding: 0 !important;
 }

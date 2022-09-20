@@ -15,6 +15,12 @@ const recentModel = persist({
       state.items = state.items.slice(0, 5);
     }
   }),
+  removeFromRecent: action((state, payload) => {
+    if (!state.items.includes(payload)) {
+      return;
+    }
+    state.items = state.items.filter((item) => item !== payload);
+  }),
 });
 
 export default recentModel;

@@ -10,6 +10,7 @@
 .description {
   color: #fff;
   margin-top: 1rem;
+  max-width: 80%;
 }
 
 .paper {

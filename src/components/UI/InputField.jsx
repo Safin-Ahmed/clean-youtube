@@ -5,7 +5,7 @@ import styles from "./InputField.module.css";
 import { Button, Typography } from "@mui/material";
 import { useStoreState } from "easy-peasy";
 
-export default function InputField({ getPlaylist }) {
+export default function InputField({ getPlaylist, items }) {
   const [playlistId, setPlaylistId] = React.useState("");
   const [localError, setLocalError] = React.useState("");
   const { error } = useStoreState((state) => state.playlist);
@@ -17,6 +17,11 @@ export default function InputField({ getPlaylist }) {
     if (!playlistId) {
       return setLocalError(
         "Invalid Playlist ID, Please Provide a Valid Playlist ID"
+      );
+    }
+    if (items.length === 10) {
+      return setLocalError(
+        "Playlist limit exceeded. You cannot add more than 10 playlist at a time"
       );
     }
     getPlaylist(playlistId);
