@@ -257,9 +257,8 @@ export default function PlaylistContentDrawer({ playlist }) {
         <Divider />
         <List>
           {playlist.playlistItems.map((item, index) => (
-            <>
+            <div key={item.contentDetails.videoId}>
               <ListItemButton
-                key={item.contentDetails.videoId}
                 selected={item.contentDetails.videoId === selectedVideo}
                 alignItems="center"
                 sx={{ gap: 2 }}
@@ -293,7 +292,7 @@ export default function PlaylistContentDrawer({ playlist }) {
                 />
               </ListItemButton>
               <Divider sx={{ borderColor: "rgb(205 205 205 / 21%)" }} />
-            </>
+            </div>
           ))}
         </List>
       </Drawer>
