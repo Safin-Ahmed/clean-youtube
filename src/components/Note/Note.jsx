@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CreateNoteButton from "./CreateNoteButton";
 
 const Note = ({ event }) => {
   const [elapsed, setElapsed] = useState(0);
@@ -29,7 +30,12 @@ const Note = ({ event }) => {
       clearInterval(interval);
     };
   }, [event]);
-  return <div>Time: {elapsed}</div>;
+  return (
+    <>
+      <CreateNoteButton />
+      <div>Time: {elapsed}</div>
+    </>
+  );
 };
 
 export default Note;

@@ -138,3 +138,10 @@ body {
 .MuiListItemButton-root:hover {
   background-color: rgb(246 241 241 / 30%) !important;
 }
+.MuiTab-root.Mui-selected {
+  color: #fff !important;
+  border-bottom-color: red !important;
+}
+.MuiTabs-indicator {
+  background-color: #fff !important;
+}

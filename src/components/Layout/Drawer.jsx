@@ -15,7 +15,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItemButton from "@mui/material/ListItemButton";
 
 import ListItemText from "@mui/material/ListItemText";
-import { ListItemAvatar } from "@mui/material";
+import { Container, ListItemAvatar } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import styles from "./Drawer.module.css";
@@ -24,6 +24,7 @@ import {
   YoutubeSearchedFor,
 } from "@mui/icons-material";
 import Note from "../Note/Note";
+import CustomTabs from "../UI/CustomTabs";
 
 const drawerWidth = 650;
 
@@ -223,7 +224,7 @@ export default function PlaylistContentDrawer({ playlist }) {
         open={open}
       >
         <DrawerHeader />
-        <div className={styles.playerWrapper}>
+        <Container>
           <YouTube
             className={styles.player}
             videoId={selectedVideo}
@@ -231,14 +232,8 @@ export default function PlaylistContentDrawer({ playlist }) {
             onStateChange={onChange}
             ref={playerRef}
           />
-          <div className={styles.title}>
-            <Typography variant="h6">{videoInfo?.title}</Typography>
-          </div>
-          <div className={styles.description}>
-            <Typography variant="body2">{videoInfo?.description}</Typography>
-          </div>
-          <Note event={event} />
-        </div>
+          <CustomTabs videoInfo={videoInfo} event={event} />
+        </Container>
       </Main>
       <Drawer
         sx={{
