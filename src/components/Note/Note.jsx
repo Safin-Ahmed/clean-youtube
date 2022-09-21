@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CreateNoteButton from "./CreateNoteButton";
 
 const Note = ({ event }) => {
-  const [elapsed, setElapsed] = useState(0);
+  const [elapsed, setElapsed] = useState(`00:00`);
   console.log("Elapsed: ", elapsed);
   useEffect(() => {
     if (!event) {
@@ -10,7 +10,7 @@ const Note = ({ event }) => {
     }
     const interval = setInterval(async () => {
       console.log(event.getCurrentTime());
-      const elapsed_sec = event.getCurrentTime();
+      const elapsed_sec = event.getCurrentTime(); // 60s
 
       const elapsed_ms = Math.floor(elapsed_sec * 1000); // 6000
       const ms = elapsed_ms % 1000; // 0
@@ -20,9 +20,7 @@ const Note = ({ event }) => {
       setElapsed(
         min.toString().padStart(2, "0") +
           ":" +
-          seconds.toString().padStart(2, "0") +
-          ":" +
-          ms.toString().padStart(3, "0")
+          seconds.toString().padStart(2, "0")
       );
     }, 100); // 100ms refresh
 
@@ -32,8 +30,7 @@ const Note = ({ event }) => {
   }, [event]);
   return (
     <>
-      <CreateNoteButton />
-      <div>Time: {elapsed}</div>
+      <CreateNoteButton elapsed={elapsed} />
     </>
   );
 };
