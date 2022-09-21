@@ -6,6 +6,14 @@ import NoteEditor from "./NoteEditor";
 
 const CreateNoteButton = ({ elapsed }) => {
   const [btnClicked, setBtnClicked] = useState(false);
+  const onSave = (data) => {
+    console.log(data);
+    setBtnClicked(false);
+  };
+
+  const onCancel = (data) => {
+    setBtnClicked(false);
+  };
   return (
     <div className={styles.wrapper}>
       {!btnClicked && (
@@ -28,7 +36,11 @@ const CreateNoteButton = ({ elapsed }) => {
           <AddCircleIcon />
         </Button>
       )}
-      {btnClicked && <NoteEditor />}
+      {btnClicked && (
+        <>
+          <NoteEditor timeStamp={elapsed} onSave={onSave} onCancel={onCancel} />
+        </>
+      )}
     </div>
   );
 };

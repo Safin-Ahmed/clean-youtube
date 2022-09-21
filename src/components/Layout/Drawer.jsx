@@ -122,14 +122,14 @@ export default function PlaylistContentDrawer({ playlist }) {
 
   const onChange = (e) => {
     if (e.data === YouTube.PlayerState.PLAYING) {
-      setEvent(e.target);
+      setEvent(e);
     }
 
     if (
       e.data === YouTube.PlayerState.PAUSED ||
       e.data === YouTube.PlayerState.ENDED
     ) {
-      setEvent(undefined);
+      setEvent(e);
     }
 
     return;

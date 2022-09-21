@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { calculateTime } from "../../utils/time";
 import CreateNoteButton from "./CreateNoteButton";
 
 const Note = ({ event }) => {
-  const [elapsed, setElapsed] = useState(`00:00`);
+  const time = calculateTime(event.target.getCurrentTime());
+  const [elapsed, setElapsed] = useState(time);
   console.log("Elapsed: ", elapsed);
   useEffect(() => {
-    if (!event) {
+    if (event.data === 2) {
       return;
     }
     const interval = setInterval(async () => {
-      console.log(event.getCurrentTime());
-      const elapsed_sec = event.getCurrentTime(); // 60s
+      // const elapsed_sec = event.getCurrentTime(); // 60s
 
-      const elapsed_ms = Math.floor(elapsed_sec * 1000); // 6000
-      const ms = elapsed_ms % 1000; // 0
-      const min = Math.floor(elapsed_ms / 60000); // 0.1
-      const seconds = Math.floor((elapsed_ms - min * 60000) / 1000); // 6
-
-      setElapsed(
-        min.toString().padStart(2, "0") +
-          ":" +
-          seconds.toString().padStart(2, "0")
-      );
+      // const elapsed_ms = Math.floor(elapsed_sec * 1000); // 6000
+      // const ms = elapsed_ms % 1000; // 0
+      // const min = Math.floor(elapsed_ms / 60000); // 0.1
+      // const seconds = Math.floor((elapsed_ms - min * 60000) / 1000); // 6
+      const newTime = calculateTime(event.target.getCurrentTime());
+      setElapsed(newTime);
     }, 100); // 100ms refresh
 
     return () => {
