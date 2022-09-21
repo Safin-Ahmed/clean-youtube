@@ -19,7 +19,11 @@ import { ListItemAvatar } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import styles from "./Drawer.module.css";
-import { CleaningServicesOutlined } from "@mui/icons-material";
+import {
+  CleaningServicesOutlined,
+  YoutubeSearchedFor,
+} from "@mui/icons-material";
+import Note from "../Note/Note";
 
 const drawerWidth = 650;
 
@@ -70,8 +74,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PlaylistContentDrawer({ playlist }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [event, setEvent] = React.useState();
   const videoId = searchParams.get("video");
   const [selectedVideo, setSelectedVideo] = React.useState("");
+  const playerRef = React.useRef();
 
   React.useEffect(() => {
     setSearchParams({
@@ -113,8 +119,19 @@ export default function PlaylistContentDrawer({ playlist }) {
     },
   };
 
-  const onReady = (e) => {
-    console.log(YouTube.PlayerState);
+  const onChange = (e) => {
+    if (e.data === YouTube.PlayerState.PLAYING) {
+      setEvent(e.target);
+    }
+
+    if (
+      e.data === YouTube.PlayerState.PAUSED ||
+      e.data === YouTube.PlayerState.ENDED
+    ) {
+      setEvent(undefined);
+    }
+
+    return;
   };
   //
   return (
@@ -211,7 +228,8 @@ export default function PlaylistContentDrawer({ playlist }) {
             className={styles.player}
             videoId={selectedVideo}
             opts={opts}
-            onReady={onReady}
+            onStateChange={onChange}
+            ref={playerRef}
           />
           <div className={styles.title}>
             <Typography variant="h6">{videoInfo?.title}</Typography>
@@ -219,6 +237,7 @@ export default function PlaylistContentDrawer({ playlist }) {
           <div className={styles.description}>
             <Typography variant="body2">{videoInfo?.description}</Typography>
           </div>
+          <Note event={event} />
         </div>
       </Main>
       <Drawer
