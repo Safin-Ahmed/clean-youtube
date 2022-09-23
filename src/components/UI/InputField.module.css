@@ -4,3 +4,9 @@
   margin: auto;
   width: 60% !important;
 }
+
+@media (max-width: 575px) {
+  .paper {
+    width: 100% !important;
+  }
+}

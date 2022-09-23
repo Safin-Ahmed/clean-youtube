@@ -24,7 +24,12 @@ export default function InputField({ getPlaylist, items }) {
         "Playlist limit exceeded. You cannot add more than 10 playlist at a time"
       );
     }
-    getPlaylist(playlistId);
+    let finalId = playlistId;
+    if (playlistId.startsWith("https")) {
+      finalId = playlistId.split("&")[1].split("=")[1];
+    }
+    console.log(finalId);
+    getPlaylist(finalId);
     setPlaylistId("");
     setLocalError("");
   };
@@ -33,10 +38,18 @@ export default function InputField({ getPlaylist, items }) {
       <Paper
         className={styles.paper}
         component="form"
-        sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}
+        sx={{
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+        }}
       >
         <InputBase
-          sx={{ ml: 1, flex: 1, color: "#fff" }}
+          sx={{
+            ml: 1,
+            flex: 1,
+            color: "#fff",
+          }}
           placeholder="Get Your Desired Playlist"
           inputProps={{ "aria-label": "get playlist" }}
           onChange={handleChange}
