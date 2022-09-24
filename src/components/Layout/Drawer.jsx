@@ -100,6 +100,10 @@ export default function PlaylistContentDrawer({ playlist }) {
     setOpen(true);
   };
 
+  const onDurationChange = (secs) => {
+    event.target.seekTo(secs, true);
+  };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -117,6 +121,7 @@ export default function PlaylistContentDrawer({ playlist }) {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
       rel: 0,
+      // start: startTime,
     },
   };
 
@@ -133,6 +138,10 @@ export default function PlaylistContentDrawer({ playlist }) {
     }
 
     return;
+  };
+
+  const onEnd = (e) => {
+    e.target.nextVideo();
   };
   //
   return (
@@ -229,10 +238,17 @@ export default function PlaylistContentDrawer({ playlist }) {
             className={styles.player}
             videoId={selectedVideo}
             opts={opts}
+            onReady={(e) => setEvent(e)}
             onStateChange={onChange}
+            onEnd={onEnd}
             ref={playerRef}
           />
-          <CustomTabs videoInfo={videoInfo} event={event} />
+          <CustomTabs
+            onDurationChange={onDurationChange}
+            videoInfo={videoInfo}
+            event={event}
+            playlistId={playlist.playlistId}
+          />
         </Container>
       </Main>
       <Drawer

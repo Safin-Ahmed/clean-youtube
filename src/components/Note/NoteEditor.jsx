@@ -67,12 +67,14 @@ class NoteEditor extends React.Component {
     return (
       <>
         <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-          <div className={"time-stamp"}>
-            <Chip
-              sx={{ background: "#b50000", color: "#fff" }}
-              label={this.props.timeStamp}
-            />
-          </div>
+          {this.props.mode !== "edit" && (
+            <div className={"time-stamp"}>
+              <Chip
+                sx={{ background: "#b50000", color: "#fff" }}
+                label={this.props.timeStamp}
+              />
+            </div>
+          )}
           <div className="RichEditor-root">
             <BlockStyleControls
               editorState={editorState}

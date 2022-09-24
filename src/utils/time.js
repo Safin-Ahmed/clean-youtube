@@ -10,3 +10,12 @@ export const calculateTime = (time) => {
     min.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0")
   );
 };
+
+export const convertStringTimeToSecs = (time) => {
+  const times = time.split(":");
+
+  const sec = +times[1];
+  const minToSec = +(times[0] * 60);
+
+  return sec + minToSec;
+};

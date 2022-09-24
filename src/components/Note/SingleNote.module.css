@@ -1,0 +1,31 @@
+.noteSection {
+  margin-top: 1rem;
+  border: 1px solid red;
+  padding: 2rem;
+}
+.noteWrapper {
+  display: flex;
+  justify-content: space-between;
+
+  color: #fff;
+}
+.noteLeft {
+  display: flex;
+  gap: 1rem;
+}
+
+.note {
+  margin-top: 1rem;
+  background-color: #242424;
+  padding: 1rem;
+  color: #fff;
+}
+
+.noteRight {
+  display: flex;
+  gap: 1rem;
+}
+
+.edit {
+  margin-top: 1rem;
+}

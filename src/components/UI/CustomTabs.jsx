@@ -40,8 +40,14 @@ function a11yProps(index) {
   };
 }
 
-export default function CustomTabs({ videoInfo, event }) {
+export default function CustomTabs({
+  videoInfo,
+  event,
+  onDurationChange,
+  playlistId,
+}) {
   const [value, setValue] = React.useState(0);
+  console.log({ videoInfo });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -69,7 +75,13 @@ export default function CustomTabs({ videoInfo, event }) {
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Note event={event} />
+        <Note
+          event={event}
+          videoId={videoInfo?.contentDetails?.videoId}
+          videoInfo={videoInfo}
+          onDurationChange={onDurationChange}
+          playlistId={playlistId}
+        />
       </TabPanel>
     </Box>
   );

@@ -3,11 +3,23 @@ import styles from "./CreateNoteButton.module.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import React, { useState } from "react";
 import NoteEditor from "./NoteEditor";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
-const CreateNoteButton = ({ elapsed }) => {
+const CreateNoteButton = ({ elapsed, videoId, playlistId }) => {
   const [btnClicked, setBtnClicked] = useState(false);
+  const noteActions = useStoreActions((action) => action.notes);
+  const noteState = useStoreState((state) => state.notes).data?.[videoId]?.[
+    elapsed
+  ];
+
   const onSave = (data) => {
     console.log(data);
+    noteActions.addNote({
+      playlistId,
+      videoId,
+      time: elapsed,
+      note: data,
+    });
     setBtnClicked(false);
   };
 
@@ -32,7 +44,14 @@ const CreateNoteButton = ({ elapsed }) => {
           onClick={() => setBtnClicked(true)}
           variant="outlined"
         >
-          <span className={styles.btnLeft}>Create a new note at {elapsed}</span>
+          {noteState && (
+            <span className={styles.btnLeft}>Update note at {elapsed}</span>
+          )}
+          {!noteState && (
+            <span className={styles.btnLeft}>
+              Create a new note at {elapsed}
+            </span>
+          )}
           <AddCircleIcon />
         </Button>
       )}

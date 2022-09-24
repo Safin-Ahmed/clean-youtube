@@ -11,12 +11,13 @@ import {
 } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styles from "./PlayListCard.module.css";
-import { useStoreActions, useStoreState } from "easy-peasy";
+import { useStore, useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function PlayListCard({ playlist }) {
   const navigate = useNavigate();
   const favoriteActions = useStoreActions((action) => action.favorites);
+  const noteActions = useStoreActions((action) => action.notes);
   const recentActions = useStoreActions((action) => action.recents);
   const playlistActions = useStoreActions((action) => action.playlist);
   const favoriteState = useStoreState((state) => state.favorites);
@@ -37,6 +38,7 @@ export default function PlayListCard({ playlist }) {
     playlistActions.removePlaylist(playlist.playlistId);
     favoriteActions.removeFromFavorite(playlist.playlistId);
     recentActions.removeFromRecent(playlist.playlistId);
+    noteActions.removePlaylistNote(playlist.playlistId);
   };
 
   return (
