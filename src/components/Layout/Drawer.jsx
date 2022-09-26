@@ -25,6 +25,11 @@ import {
 } from "@mui/icons-material";
 import Note from "../Note/Note";
 import CustomTabs from "../UI/CustomTabs";
+import { useState } from "react";
+import { action, useStoreActions, useStoreState } from "easy-peasy";
+import useElapse from "../../hooks/useElapse";
+import { useEffect } from "react";
+import { convertStringTimeToSecs } from "../../utils/time";
 
 const drawerWidth = 650;
 
@@ -76,18 +81,49 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PlaylistContentDrawer({ playlist }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [event, setEvent] = React.useState();
+  const [startTime, setStartTime] = useState();
   const videoId = searchParams.get("video");
   const [selectedVideo, setSelectedVideo] = React.useState("");
   const playerRef = React.useRef();
+  const videoState = useStoreState((state) => state.videoId);
+  const videoData = videoState.data[playlist.playlistId];
+
+  const videoActions = useStoreActions((action) => action.videoId);
+  const { elapsed } = useElapse(event);
+
+  useEffect(() => {
+    const videoStartTime = videoData?.elapsed;
+    const startSecs = convertStringTimeToSecs(videoStartTime);
+    setStartTime(startSecs);
+  }, []);
+
+  useEffect(() => {
+    videoActions.addVideoId({
+      playlistId: playlist.playlistId,
+      videoId,
+      elapsed,
+    });
+  }, [elapsed]);
 
   React.useEffect(() => {
+    let videoId;
+    if (videoData) {
+      videoId = videoData.videoId;
+    } else {
+      videoId = playlist.playlistItems[0].contentDetails.videoId;
+    }
     setSearchParams({
-      video: playlist.playlistItems[0].contentDetails.videoId,
+      video: videoId,
     });
   }, []);
 
   React.useEffect(() => {
     setSelectedVideo(videoId);
+    videoActions.addVideoId({
+      playlistId: playlist.playlistId,
+      videoId,
+      elapsed: "00:00",
+    });
   }, [videoId]);
   const videoInfo = playlist.playlistItems.find(
     (item) => item.contentDetails.videoId === videoId
@@ -121,7 +157,7 @@ export default function PlaylistContentDrawer({ playlist }) {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
       rel: 0,
-      // start: startTime,
+      start: startTime,
     },
   };
 
@@ -141,8 +177,18 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const onEnd = (e) => {
-    e.target.nextVideo();
+    const currentVideoIndex = playlist.playlistItems.findIndex(
+      (item) => item.contentDetails.videoId === selectedVideo
+    );
+
+    const nextVideoId =
+      playlist.playlistItems[currentVideoIndex + 1].contentDetails.videoId;
+
+    setSearchParams({
+      video: nextVideoId,
+    });
   };
+
   //
   return (
     <Box sx={{ display: "flex" }}>
