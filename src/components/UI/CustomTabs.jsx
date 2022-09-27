@@ -47,7 +47,6 @@ export default function CustomTabs({
   playlistId,
 }) {
   const [value, setValue] = React.useState(0);
-  console.log({ videoInfo });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

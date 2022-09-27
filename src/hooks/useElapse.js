@@ -3,8 +3,9 @@ import { calculateTime } from "../utils/time";
 
 const useElapse = (event) => {
   const time = calculateTime(event?.target.getCurrentTime());
+
   const [elapsed, setElapsed] = useState(time);
-  console.log("Elapsed: ", elapsed);
+  console.log({ time });
   useEffect(() => {
     if (event?.data === 2) {
       return;

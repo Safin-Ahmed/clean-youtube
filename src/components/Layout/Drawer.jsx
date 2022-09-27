@@ -79,26 +79,38 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function PlaylistContentDrawer({ playlist }) {
+  console.log("Rendering Drawer Component");
   const [searchParams, setSearchParams] = useSearchParams();
   const [event, setEvent] = React.useState();
-  const [startTime, setStartTime] = useState();
+
   const videoId = searchParams.get("video");
   const [selectedVideo, setSelectedVideo] = React.useState("");
   const playerRef = React.useRef();
   const videoState = useStoreState((state) => state.videoId);
   const videoData = videoState.data[playlist.playlistId];
+  const elapseState = useStoreState((state) => state.elapsed);
+  const playlistElapseState = elapseState.data[playlist.playlistId];
+  const elapseActions = useStoreActions((actions) => actions.elapsed);
+  const [startTime, setStartTime] = useState(0);
 
   const videoActions = useStoreActions((action) => action.videoId);
   const { elapsed } = useElapse(event);
 
   useEffect(() => {
-    const videoStartTime = videoData?.elapsed;
-    const startSecs = convertStringTimeToSecs(videoStartTime);
-    setStartTime(startSecs);
-  }, []);
+    // Get video start time if exists!
+    if (!playlistElapseState) {
+      return;
+    }
+    if (playlistElapseState[videoId]) {
+      setStartTime(convertStringTimeToSecs(playlistElapseState[videoId]));
+    } else {
+      setStartTime(0);
+    }
+  }, [videoId]);
 
   useEffect(() => {
-    videoActions.addVideoId({
+    // set Elapse time for a video
+    elapseActions.addElapse({
       playlistId: playlist.playlistId,
       videoId,
       elapsed,
@@ -106,6 +118,7 @@ export default function PlaylistContentDrawer({ playlist }) {
   }, [elapsed]);
 
   React.useEffect(() => {
+    console.log("Setting Search Params with video id");
     let videoId;
     if (videoData) {
       videoId = videoData.videoId;
@@ -117,14 +130,17 @@ export default function PlaylistContentDrawer({ playlist }) {
     });
   }, []);
 
-  React.useEffect(() => {
-    setSelectedVideo(videoId);
+  useEffect(() => {
     videoActions.addVideoId({
       playlistId: playlist.playlistId,
       videoId,
-      elapsed: "00:00",
     });
   }, [videoId]);
+
+  React.useEffect(() => {
+    setSelectedVideo(videoId);
+  }, [videoId]);
+
   const videoInfo = playlist.playlistItems.find(
     (item) => item.contentDetails.videoId === videoId
   );
@@ -137,7 +153,10 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const onDurationChange = (secs) => {
-    event.target.seekTo(secs, true);
+    if (!event) {
+      return;
+    }
+    event?.target?.seekTo(secs, true);
   };
 
   const handleDrawerClose = () => {
@@ -162,7 +181,10 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const onChange = (e) => {
-    if (e.data === YouTube.PlayerState.PLAYING) {
+    if (
+      e.data === YouTube.PlayerState.PLAYING ||
+      e.data === YouTube.PlayerState.UNSTARTED
+    ) {
       setEvent(e);
     }
 
@@ -177,6 +199,10 @@ export default function PlaylistContentDrawer({ playlist }) {
   };
 
   const onEnd = (e) => {
+    elapseActions.removeVideoElapse({
+      playlistId: playlist.playlistId,
+      videoId: selectedVideo,
+    });
     const currentVideoIndex = playlist.playlistItems.findIndex(
       (item) => item.contentDetails.videoId === selectedVideo
     );

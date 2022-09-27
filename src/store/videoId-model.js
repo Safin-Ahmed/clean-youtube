@@ -6,7 +6,6 @@ export const videoIdModel = persist(
     addVideoId: action((state, payload) => {
       state.data[payload.playlistId] = {
         videoId: payload.videoId,
-        elapsed: payload.elapsed,
       };
     }),
     removeVideoId: action((state, payload) => {

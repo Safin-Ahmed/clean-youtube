@@ -8,9 +8,9 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 const CreateNoteButton = ({ elapsed, videoId, playlistId }) => {
   const [btnClicked, setBtnClicked] = useState(false);
   const noteActions = useStoreActions((action) => action.notes);
-  const noteState = useStoreState((state) => state.notes).data?.[videoId]?.[
-    elapsed
-  ];
+  const noteState = useStoreState((state) => state.notes).data?.[playlistId]?.[
+    videoId
+  ]?.[elapsed];
 
   const onSave = (data) => {
     console.log(data);

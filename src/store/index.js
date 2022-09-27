@@ -1,4 +1,5 @@
 import { createStore } from "easy-peasy";
+import { elapsedModel } from "./elapsed-model";
 import favoriteModel from "./favorite-model";
 import noteModel from "./note-model";
 import playlistModel from "./playlist-model";
@@ -11,6 +12,7 @@ const store = createStore({
   recents: recentModel,
   notes: noteModel,
   videoId: videoIdModel,
+  elapsed: elapsedModel,
 });
 
 export default store;

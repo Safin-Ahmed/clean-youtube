@@ -12,7 +12,7 @@ export const calculateTime = (time) => {
 };
 
 export const convertStringTimeToSecs = (time) => {
-  const times = time.split(":");
+  const times = time?.split(":");
 
   const sec = +times[1];
   const minToSec = +(times[0] * 60);
