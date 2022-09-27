@@ -19,14 +19,11 @@ import { Container, ListItemAvatar } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import styles from "./Drawer.module.css";
-import {
-  CleaningServicesOutlined,
-  YoutubeSearchedFor,
-} from "@mui/icons-material";
-import Note from "../Note/Note";
+import { CleaningServicesOutlined } from "@mui/icons-material";
+
 import CustomTabs from "../UI/CustomTabs";
 import { useState } from "react";
-import { action, useStoreActions, useStoreState } from "easy-peasy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import useElapse from "../../hooks/useElapse";
 import { useEffect } from "react";
 import { convertStringTimeToSecs } from "../../utils/time";

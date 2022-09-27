@@ -20,6 +20,8 @@ export default function PlayListCard({ playlist }) {
   const noteActions = useStoreActions((action) => action.notes);
   const recentActions = useStoreActions((action) => action.recents);
   const playlistActions = useStoreActions((action) => action.playlist);
+  const videoIdActions = useStoreActions((action) => action.videoId);
+  const elapsedActions = useStoreActions((action) => action.elapsed);
   const favoriteState = useStoreState((state) => state.favorites);
   const isFavorite = favoriteState.items.find(
     (item) => item === playlist.playlistId
@@ -39,6 +41,8 @@ export default function PlayListCard({ playlist }) {
     favoriteActions.removeFromFavorite(playlist.playlistId);
     recentActions.removeFromRecent(playlist.playlistId);
     noteActions.removePlaylistNote(playlist.playlistId);
+    videoIdActions.removeVideoId(playlist.playlistId);
+    elapsedActions.removePlaylistElapse(playlist.playlistId);
   };
 
   return (
