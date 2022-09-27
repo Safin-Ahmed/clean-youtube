@@ -25,7 +25,9 @@ export default function InputField({ getPlaylist, items }) {
       );
     }
     let finalId = playlistId;
-    if (playlistId.startsWith("https://www.youtube.com")) {
+    if (
+      playlistId.startsWith("https://www.youtube.com" || "https://youtube.com")
+    ) {
       if (!playlistId.includes("playlist?")) {
         finalId = playlistId.split("&")[1].split("=")[1];
       } else {
